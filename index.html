@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's Your Coffee Personality?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #fef7ed 0%, #fef3e2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .card {
+            background: #fffbf5;
+            border-radius: 24px;
+            padding: 50px 45px;
+            box-shadow: 0 20px 60px rgba(180, 130, 80, 0.12);
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen h1 {
+            font-family: 'Lora', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #5d4037;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .start-screen p {
+            color: #8b7355;
+            font-size: 18px;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #d4a574, #c9956c);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 45px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 25px rgba(201, 149, 108, 0.35);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(201, 149, 108, 0.45);
+        }
+
+        /* Quiz Screen */
+        .quiz-screen {
+            display: none;
+        }
+
+        .meta {
+            font-size: 14px;
+            color: #b8860b;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-family: 'Lora', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: #5d4037;
+            margin-bottom: 35px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .option {
+            background: #fff;
+            border: 2px solid #f5e6d3;
+            border-radius: 16px;
+            padding: 20px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6d4c41;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            border-color: #d4a574;
+            background: #fffaf3;
+            transform: translateY(-1px);
+        }
+
+        .option .icon {
+            font-size: 20px;
+        }
+
+        .progress {
+            margin-top: 45px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #f5e6d3;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #d4a574, #c9956c);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #a0826d;
+            min-width: 40px;
+        }
+
+        /* Results Screen */
+        .results-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .results-screen h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .result-personality {
+            font-family: 'Lora', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #5d4037;
+            margin-bottom: 8px;
+        }
+
+        .result-coffee {
+            font-size: 20px;
+            color: #b8860b;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .result-description {
+            color: #8b7355;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .percentages {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #f5e6d3;
+        }
+
+        .percentages h3 {
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            color: #5d4037;
+            margin-bottom: 20px;
+        }
+
+        .percentage-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .percentage-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .percentage-label {
+            width: 120px;
+            text-align: left;
+            font-size: 14px;
+            color: #6d4c41;
+            font-weight: 600;
+        }
+
+        .percentage-bar-bg {
+            flex: 1;
+            height: 12px;
+            background: #f5e6d3;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0 12px;
+        }
+
+        .percentage-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4a574, #c9956c);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .percentage-bar-fill.secondary {
+            background: #d6bca4;
+        }
+
+        .percentage-value {
+            width: 45px;
+            text-align: right;
+            font-size: 14px;
+            color: #a0826d;
+            font-weight: 600;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #d4a574, #c9956c);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 35px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 12px;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .retry-btn {
+            background: #fff;
+            color: #6d4c41;
+            border: 2px solid #f5e6d3;
+            border-radius: 16px;
+            padding: 16px 35px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .retry-btn:hover {
+            border-color: #d4a574;
+            background: #fffaf3;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Start Screen -->
+            <div class="start-screen" id="startScreen">
+                <h1>☕ What's Your Coffee Personality?</h1>
+                <p>Answer 6 quick questions to discover which coffee matches your vibe.</p>
+                <button class="start-btn" onclick="startQuiz()">Find Out →</button>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div class="quiz-screen" id="quizScreen">
+                <div class="meta" id="questionMeta">Question 1 of 6</div>
+                <h2 id="questionText"></h2>
+                <div class="options" id="optionsContainer"></div>
+                <div class="progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">0%</span>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div class="results-screen" id="resultsScreen">
+                <h2>You are a...</h2>
+                <div class="result-personality" id="resultPersonality"></div>
+                <div class="result-coffee" id="resultCoffee"></div>
+                <p class="result-description" id="resultDescription"></p>
+
+                <div class="percentages">
+                    <h3>Your Full Breakdown</h3>
+                    <div id="percentagesContainer"></div>
+                </div>
+
+                <div class="buttons">
+                    <button class="share-btn" onclick="shareResults()">Share Results</button>
+                    <button class="retry-btn" onclick="retryQuiz()">Try Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Data
+        const questions = [
+            {
+                text: "What's your ideal weekend morning?",
+                options: [
+                    { icon: "☀️", text: "Sleeping in until noon", personality: "nightowl" },
+                    { icon: "🥾", text: "Early hike or workout", personality: "bold" },
+                    { icon: "🛋️", text: "Cozy breakfast at home", personality: "cozy" },
+                    { icon: "🥐", text: "Trying a new brunch spot", personality: "artisan" }
+                ]
+            },
+            {
+                text: "Pick your perfect evening:",
+                options: [
+                    { icon: "🎉", text: "Out with friends until late", personality: "bold" },
+                    { icon: "📺", text: "Movie marathon on the couch", personality: "cozy" },
+                    { icon: "💻", text: "Deep dive into a passion project", personality: "nightowl" },
+                    { icon: "🍷", text: "Intimate dinner with great conversation", personality: "artisan" }
+                ]
+            },
+            {
+                text: "Your phone battery dies. How do you feel?",
+                options: [
+                    { icon: "😤", text: "Frustrated - I need to stay connected", personality: "nightowl" },
+                    { icon: "😌", text: "Relieved - forced digital detox", personality: "cozy" },
+                    { icon: "🤷", text: "Whatever - I'll figure it out", personality: "bold" },
+                    { icon: "📱", text: "I always have a backup charger", personality: "artisan" }
+                ]
+            },
+            {
+                text: "What's your travel style?",
+                options: [
+                    { icon: "🎒", text: "Spontaneous backpacking", personality: "bold" },
+                    { icon: "🏡", text: "Cozy cabin getaway", personality: "cozy" },
+                    { icon: "🌃", text: "City exploration, day and night", personality: "nightowl" },
+                    { icon: "✈️", text: "Curated boutique experiences", personality: "artisan" }
+                ]
+            },
+            {
+                text: "How do you approach a new recipe?",
+                options: [
+                    { icon: "🔥", text: "Wing it and add extra spice", personality: "bold" },
+                    { icon: "📖", text: "Follow Grandma's classic recipe", personality: "cozy" },
+                    { icon: "🌙", text: "Cooking at midnight hits different", personality: "nightowl" },
+                    { icon: "⚖️", text: "Precise measurements, quality ingredients", personality: "artisan" }
+                ]
+            },
+            {
+                text: "Pick a superpower:",
+                options: [
+                    { icon: "⚡", text: "Unlimited energy", personality: "bold" },
+                    { icon: "🛡️", text: "Create a comfort bubble anywhere", personality: "cozy" },
+                    { icon: "🦉", text: "Perfect night vision", personality: "nightowl" },
+                    { icon: "🎯", text: "Instantly master any skill", personality: "artisan" }
+                ]
+            }
+        ];
+
+        const personalities = {
+            bold: {
+                name: "Bold Adventurer",
+                coffee: "☕ Double Espresso",
+                description: "You live life with intensity! You're always chasing the next adventure, ready to take risks, and never one to shy away from a challenge. Your perfect match? A double espresso - bold, powerful, and gets straight to the point."
+            },
+            cozy: {
+                name: "Cozy Classic",
+                coffee: "☕ Medium Roast Drip",
+                description: "You're the comfort everyone needs. Reliable, warm, and perfectly balanced - you appreciate life's simple pleasures and know that sometimes the classics are classic for a reason. A smooth medium roast drip is your soulmate in a cup."
+            },
+            nightowl: {
+                name: "Night Owl",
+                coffee: "☕ Red Eye",
+                description: "Your best ideas come after midnight. Creative, focused, and unafraid to burn the candle at both ends when inspiration strikes. A red eye (coffee + espresso shot) gives you the fuel to keep going when the world sleeps."
+            },
+            artisan: {
+                name: "Artisan Snob",
+                coffee: "☕ Pour-Over, Single Origin",
+                description: "You have refined taste and you know it. Details matter, quality is non-negotiable, and you'd rather have one exceptional thing than ten mediocre ones. A carefully crafted pour-over with single origin beans speaks your language."
+            }
+        };
+
+        // Quiz State
+        let currentQuestion = 0;
+        let scores = { bold: 0, cozy: 0, nightowl: 0, artisan: 0 };
+
+        // Functions
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizScreen').style.display = 'block';
+            document.getElementById('quizScreen').classList.add('fade-in');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionMeta').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            document.getElementById('questionText').textContent = question.text;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.innerHTML = `<span class="icon">${option.icon}</span> ${option.text}`;
+                button.onclick = () => selectAnswer(option.personality);
+                optionsContainer.appendChild(button);
+            });
+
+            updateProgress();
+        }
+
+        function selectAnswer(personality) {
+            scores[personality]++;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = Math.round(progress) + '%';
+        }
+
+        function showResults() {
+            document.getElementById('quizScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            document.getElementById('resultsScreen').classList.add('fade-in');
+
+            // Find winning personality
+            let winner = 'bold';
+            let maxScore = 0;
+            for (const [personality, score] of Object.entries(scores)) {
+                if (score > maxScore) {
+                    maxScore = score;
+                    winner = personality;
+                }
+            }
+
+            const result = personalities[winner];
+            document.getElementById('resultPersonality').textContent = result.name;
+            document.getElementById('resultCoffee').textContent = result.coffee;
+            document.getElementById('resultDescription').textContent = result.description;
+
+            // Calculate percentages
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            const percentages = {};
+            for (const [personality, score] of Object.entries(scores)) {
+                percentages[personality] = Math.round((score / total) * 100);
+            }
+
+            // Display percentages (sorted by value)
+            const sorted = Object.entries(percentages).sort((a, b) => b[1] - a[1]);
+            const container = document.getElementById('percentagesContainer');
+            container.innerHTML = '';
+
+            sorted.forEach(([personality, percent], index) => {
+                const row = document.createElement('div');
+                row.className = 'percentage-row';
+                row.innerHTML = `
+                    <span class="percentage-label">${personalities[personality].name.split(' ')[0]}</span>
+                    <div class="percentage-bar-bg">
+                        <div class="percentage-bar-fill ${index > 0 ? 'secondary' : ''}" style="width: ${percent}%"></div>
+                    </div>
+                    <span class="percentage-value">${percent}%</span>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function shareResults() {
+            // Find winning personality
+            let winner = 'bold';
+            let maxScore = 0;
+            for (const [personality, score] of Object.entries(scores)) {
+                if (score > maxScore) {
+                    maxScore = score;
+                    winner = personality;
+                }
+            }
+
+            const result = personalities[winner];
+            const text = `☕ I'm a ${result.name}! My coffee match: ${result.coffee.replace('☕ ', '')}. What's your coffee personality?`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: "My Coffee Personality",
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Copied to clipboard! Share it anywhere.');
+                });
+            }
+        }
+
+        function retryQuiz() {
+            currentQuestion = 0;
+            scores = { bold: 0, cozy: 0, nightowl: 0, artisan: 0 };
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
